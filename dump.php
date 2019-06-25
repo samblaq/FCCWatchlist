@@ -132,7 +132,7 @@
             function generatePDF(){
                 
                 $.ajax({
-                    url: "Pdfgen.php",
+                    url: "pdfgen.php",
                     type: "post",
                     data: {filtered : json_encode($filtered_data)},
                     dataType: 'json',
