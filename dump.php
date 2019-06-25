@@ -131,10 +131,11 @@
             
             function generatePDF(){
                 
+                console.log($filtered_array);
                 $.ajax({
                     url: "pdfgen.php",
-                    type: "post",
-                    data: {filtered : json_encode($filtered_data)},
+                    type: "get",
+                    data: {filtered: json_encode($filtered_array)},
                     dataType: 'json',
                     success: function(data){
                         console.log('success '+data);
