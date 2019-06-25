@@ -52,7 +52,10 @@
                 <section class="sidebar">
                 <br>
                     <br>    
-                    <?php include "side-bar-menu.php"; ?>
+                    <?php 
+                    include "side-bar-menu.php"; 
+                    $filtered_array = [];
+                    ?>
                 </section>
             </aside>
             <aside class="right-side">
@@ -61,7 +64,7 @@
                         Dump
                     </h1>
                     <!-- <a href="#" id="test" onClick="" class="btn btn-warning">Download</a> -->
-                    <a href="pdfgen.php" onClick="" class="btn btn-warning">Download</a>
+                    <a href="pdfgen.php" onClick="generatePDF" class="btn btn-warning">Download</a>
                 </section>
                 <section class="content">
                     <div class="row">
@@ -125,9 +128,24 @@
         <script src="assets/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
         
         <script>
-            // $(document).ready(function(){
-            //     $('.watchlist').DataTable();
-            // });                                                
+            
+            function generatePDF(){
+                
+                $.ajax({
+                    url: "Pdfgen.php",
+                    type: "post",
+                    data: {filtered : json_encode($filtered_data)},
+                    dataType: 'json',
+                    success: function(data){
+                        console.log('success '+data);
+                    },
+                    error: function(err){
+                        alert('error '+err);
+                    }
+                });
+                
+            }
+            
         </script>
 
 
@@ -157,7 +175,12 @@ table.on('search.dt', function() {
     // number of filtered rows
     console.log(table.rows( { filter : 'applied'} ).nodes().length);
     // filtered rows data as arrays
-    console.log(table.rows( { filter : 'applied'} ).data());                                  
+    //console.log(table.rows( { filter : 'applied'} ).data()); 
+    
+    $filtered_array = table.rows( { filter : 'applied'} ).data();
+    
+    console.log($filtered_array);
+    
 })
     </script>    
     </body>
