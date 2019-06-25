@@ -134,7 +134,7 @@
                 console.log($filtered_array);
                 $.ajax({
                     url: "pdfgen.php",
-                    type: "get",
+                    type: "GET",
                     data: {filtered: json_encode($filtered_array)},
                     dataType: 'json',
                     success: function(data){
@@ -175,9 +175,9 @@ table.on('search.dt', function() {
     // number of filtered rows
     console.log(table.rows( { filter : 'applied'} ).nodes().length);
     // filtered rows data as arrays
-    //console.log(table.rows( { filter : 'applied'} ).data()); 
-    
-    $filtered_array = table.rows( { filter : 'applied'} ).data();
+    console.log(table.rows( { filter : 'applied'} ).data()); 
+        
+    "<?php $filtered_array = table.rows( { filter : 'applied'} ).data();?>"
     
     console.log($filtered_array);
     
