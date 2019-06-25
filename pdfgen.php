@@ -2,8 +2,11 @@
     // include('databaseconnection.php');
     // include('session.php');
     // require('fpdf.php');
-    $data = $_GET["filtered"];
-    json_decode($data);
+    // $data = $_POST["filtered"];
+    // echo json_decode($data);
+
+    $data = json_decode($_POST["filtered"]);
+    echo $data[0];
     // class PDF extends FPDF{
         
     //     function header(){

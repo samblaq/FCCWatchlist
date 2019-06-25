@@ -64,7 +64,7 @@
                         Dump
                     </h1>
                     <!-- <a href="#" id="test" onClick="" class="btn btn-warning">Download</a> -->
-                    <a href="pdfgen.php" onClick="generatePDF" class="btn btn-warning">Download</a>
+                    <a href="#" onClick = "" class="btn btn-warning">Download</a>
                 </section>
                 <section class="content">
                     <div class="row">
@@ -128,25 +128,22 @@
         <script src="assets/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
         
         <script>
-            
-            function generatePDF(){
-                
-                console.log($filtered_array);
+            function generatePDF(data1){
+                console.log(data1);
                 $.ajax({
                     url: "pdfgen.php",
-                    type: "GET",
-                    data: {filtered: json_encode($filtered_array)},
+                    type: "POST",
+                    data: {filtered: JSON.stringify(data1)},
                     dataType: 'json',
                     success: function(data){
-                        console.log('success '+data);
+                        alert('success '+data);
                     },
                     error: function(err){
-                        alert('error '+err);
+                        alert('error '+err[0]);
                     }
                 });
                 
             }
-            
         </script>
 
 
@@ -173,13 +170,14 @@
 
 table.on('search.dt', function() {
     // number of filtered rows
-    console.log(table.rows( { filter : 'applied'} ).nodes().length);
+    // console.log(table.rows( { filter : 'applied'} ).nodes().length);
     // filtered rows data as arrays
-    console.log(table.rows( { filter : 'applied'} ).data()); 
+    // console.log(table.rows( { filter : 'applied'} ).data()); 
         
-    "<?php $filtered_array = table.rows( { filter : 'applied'} ).data();?>"
+    filtered_array = table.rows( { filter : 'applied'} ).data();
     
-    console.log($filtered_array);
+    generatePDF(filtered_array);
+    // console.log($filtered_array);
     
 })
     </script>    
