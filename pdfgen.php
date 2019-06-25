@@ -2,6 +2,7 @@
     include('databaseconnection.php');
     include('session.php');
     require('fpdf.php');
+    $data = $_POST["filtered"];
 
     class PDF extends FPDF{
         
@@ -47,18 +48,20 @@
             include('databaseconnection.php');
             $this->SetFont('Times','',12);
             $sql_pdf = "SELECT * FROM Watchlist";
-            $result = sqlsrv_query($conn,$sql_pdf);
-            while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){
-                $this->Cell(40,10,$row['DateOfNotice'],1,0,'C');
-                $this->Cell(40,10,$row['Regulator'],1,0,'L');
-                $this->Cell(40,10,$row['IndividualEntity'],1,0,'L');
-                $this->Cell(30,10,$row['LinkedTo'],1,0,'L');
-                $this->Cell(30,10,$row['SubjectName'],1,0,'L');
-                $this->Cell(30,10,$row['Alias'],1,0,'L');
-                $this->Cell(22,10,$row['Country'],1,0,'R');
-                $this->Cell(32,10,$row['FurtherInfo'],1,0,'R');
-                $this->Ln();
-            }
+            $result = json_decode($data);
+//             while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){
+//                 $this->Cell(40,10,$row['DateOfNotice'],1,0,'C');
+//                 $this->Cell(40,10,$row['Regulator'],1,0,'L');
+//                 $this->Cell(40,10,$row['IndividualEntity'],1,0,'L');
+//                 $this->Cell(30,10,$row['LinkedTo'],1,0,'L');
+//                 $this->Cell(30,10,$row['SubjectName'],1,0,'L');
+//                 $this->Cell(30,10,$row['Alias'],1,0,'L');
+//                 $this->Cell(22,10,$row['Country'],1,0,'R');
+//                 $this->Cell(32,10,$row['FurtherInfo'],1,0,'R');
+//                 $this->Ln();
+//             }
+            
+            echo $result;
         }
 
     }
