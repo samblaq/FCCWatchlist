@@ -64,7 +64,7 @@
                         Dump
                     </h1>
                     <!-- <a href="#" id="test" onClick="" class="btn btn-warning">Download</a> -->
-                    <a href="#" onClick = "" class="btn btn-warning">Download</a>
+                    <a href="#" id= 'gen' class="btn btn-warning">Download</a>
                 </section>
                 <section class="content">
                     <div class="row">
@@ -90,7 +90,6 @@
                                                                 <th>Subject Name</th>
                                                                 <th>Alias</th>
                                                                 <th>Country</th>
-                                                                <th>Further Info</th>
                                                             </tr>
                                                         </thead>
                                                     "; 
@@ -105,7 +104,6 @@
                                                                 <td>".$row['SubjectName']."</td>
                                                                 <td>".$row['Alias']."</td>
                                                                 <td>".$row['Country']."</td>
-                                                                <td>".$row['FurtherInfo']."</td>
                                                             </tr>
                                                         ";
                                                     }
@@ -136,50 +134,31 @@
                     data: {filtered: JSON.stringify(data1)},
                     dataType: 'json',
                     success: function(data){
-                        alert('success '+data);
+                        alert('success '+ data);
+                        // console.log(data);
                     },
                     error: function(err){
-                        alert('error '+err[0]);
+                        alert('error '+JSON.stringify(err));
+                        // console.log(err);
                     }
                 });
                 
-            }
+            } 
         </script>
-
-
-         <script>
-        function fnExcelReport(){
-            var tab_text = '<html xmlns:x="urn:schemas-microsoft-com:office:excel">';
-            tab_text = tab_text + '<head><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>';
-            tab_text = tab_text + '<x:Name>Client Engagement</x:Name>';
-            tab_text = tab_text + '<x:WorksheetOptions><x:Panes></x:Panes></x:WorksheetOptions></x:ExcelWorksheet>';
-            tab_text = tab_text + '</x:ExcelWorksheets></x:ExcelWorkbook></xml></head><body>';
-            tab_text = tab_text + "<table border='1px'>";
-            tab_text = tab_text + $('#myTable').html();
-            tab_text = tab_text + '</table></body></html>';
-            var data_type = 'data:application/vnd.ms-excel';
-            $('#test').attr('href' , data_type + ', ' + encodeURIComponent(tab_text));
-            $('#test').attr('download', 'ClientEngagement.xls');
-        }
-    </script>
 
     <script>
         var table = $('.watchlist').DataTable({
 
+        })
+
+        $('#gen').click(function() {
+            filtered_array = table.rows( { filter : 'applied'} ).data().toArray();
+            generatePDF(filtered_array);
         })  
 
-table.on('search.dt', function() {
-    // number of filtered rows
-    // console.log(table.rows( { filter : 'applied'} ).nodes().length);
-    // filtered rows data as arrays
-    // console.log(table.rows( { filter : 'applied'} ).data()); 
-        
-    filtered_array = table.rows( { filter : 'applied'} ).data();
+        table.on('search.dt', function() {
     
-    generatePDF(filtered_array);
-    // console.log($filtered_array);
-    
-})
+        })
     </script>    
     </body>
 </html>

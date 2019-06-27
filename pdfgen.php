@@ -2,11 +2,8 @@
      include('databaseconnection.php');
      include('session.php');
      require('fpdf.php');
-     //$data = $_POST["filtered"];
-     //echo json_decode($data);
-
-    $data = json_decode($_POST["filtered"]);
-   // echo $data[0];
+    global $data;
+     $data = json_decode($_POST["filtered"], true);
     class PDF extends FPDF{
         
          function header(){
@@ -34,57 +31,41 @@
          function headerTable(){
              $this->SetFont('Times','B',12);
              $this->Cell(40,10,'Date of Notice',1,0,'C');
-             $this->Cell(40,10,'Reference Number',1,0,'C');
-             $this->Cell(40,10,'Individual/Entity',1,0,'C');
-             $this->Cell(30,10,'LinkedTo',1,0,'C');
-             $this->Cell(30,10,'Subject Name',1,0,'C');
-             $this->Cell(30,10,'Alias',1,0,'C');
-             $this->Cell(22,10,'Country',1,0,'C');
-             $this->Cell(32,10,'Further Info',1,0,'C');
+             $this->Cell(20,10,'Reg',1,0,'C');
+             $this->Cell(30,10,'RefNo.',1,0,'C');
+             $this->Cell(25,10,'I/E',1,0,'C');
+             $this->Cell(40,10,'LinkedTo',1,0,'C');
+             $this->Cell(40,10,'Subject Name',1,0,'C');
+             $this->Cell(22,10,'Alias',1,0,'C');
+             $this->Cell(32,10,'Country',1,0,'C');
              $this->Ln();
          }
          
 
 
         
-         function viewTable(){
+         function viewTable($data){
              include('databaseconnection.php');
              $this->SetFont('Times','',12);
-             $sql_pdf = "SELECT * FROM Watchlist";
-        //     $result = json_decode($data);
-//             while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){
-//                 $this->Cell(40,10,$row['DateOfNotice'],1,0,'C');
-//                 $this->Cell(40,10,$row['Regulator'],1,0,'L');
-//                 $this->Cell(40,10,$row['IndividualEntity'],1,0,'L');
-//                 $this->Cell(30,10,$row['LinkedTo'],1,0,'L');
-//                 $this->Cell(30,10,$row['SubjectName'],1,0,'L');
-//                 $this->Cell(30,10,$row['Alias'],1,0,'L');
-//                 $this->Cell(22,10,$row['Country'],1,0,'R');
-//                 $this->Cell(32,10,$row['FurtherInfo'],1,0,'R');
-//                 $this->Ln();
-//             }
-
-              for($i=0; $i<count($data); $i++){
+              for($i=0; $i<sizeof($data); $i++){
                 $this->Cell(40,10,$data[$i][0],1,0,'C');
-                $this->Cell(40,10,$data[$i][1],1,0,'L');
-                $this->Cell(40,10,$data[$i][2],1,0,'L');
-                $this->Cell(30,10,$data[$i][3],1,0,'L');
-                $this->Cell(30,10,$data[$i][4],1,0,'L');
-                $this->Cell(30,10,$data[$i][5],1,0,'L');
-                $this->Cell(22,10,$data[$i][6],1,0,'R');
-
+                $this->Cell(20,10,$data[$i][1],1,0,'L');
+                $this->Cell(30,10,$data[$i][2],1,0,'L');
+                $this->Cell(25,10,$data[$i][3],1,0,'C');
+                $this->Cell(40,10,$data[$i][4],1,0,'L');
+                $this->Cell(40,10,$data[$i][5],1,0,'L');
+                $this->Cell(22,10,$data[$i][6],1,0,'C');
+                $this->Cell(32,10,$data[$i][7],1,0,'C');
+                $this->Ln();
               }
-            
-    //         echo $result;
          }
 
-    // }
+    }
 
-     $pdf = new PDF();
+    $pdf = new PDF();
      $pdf->AliasNbPages();
      $pdf->AddPage('L','A4',0);
      $pdf->headerTable();
-     $pdf->viewTable();
+     $pdf->viewTable($data);
      $pdf->Output();
-
 ?>
