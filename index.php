@@ -22,7 +22,7 @@
             $result = sqlsrv_query($conn,$sql);
                 while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {    
                     if ($PWID == $row["PWID"] && $password = $row['password']) {
-                        $Name = $row["Name"];
+                        $Name = $row["name"];
                         $PWID = $row["PWID"];
                         $role = $row["role"];
                         $matchFound = 1;
@@ -32,7 +32,7 @@
             if ($matchFound == 1) {
                 @session_start();
                 $_SESSION["PWID"] = $PWID;
-                $_SESSION["Name"] = $Name;
+                $_SESSION["name"] = $Name;
                 $_SESSION["role"] = $role;
 
                 header("Location: upload.php");

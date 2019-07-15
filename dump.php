@@ -63,7 +63,7 @@
                     <h1>
                         Dump
                     </h1>
-                    <!-- <a href="#" id="test" onClick="" class="btn btn-warning">Download</a> -->
+                    
                     <a href="#" id= 'gen' class="btn btn-warning">Download</a>
                 </section>
                 <section class="content">
@@ -126,40 +126,43 @@
         <script src="assets/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
         
         <script>
+            var table = $('.watchlist').DataTable();
+            var value;
+                $('.watchlist').on('search.dt',function(){
+                    value = $('.dataTables_filter input').val();
+                    console.log(value); 
+                });
+            
             function generatePDF(data1){
                 console.log(data1);
                 $.ajax({
                     url: "pdfgen.php",
                     type: "POST",
-                    data: {filtered: JSON.stringify(data1)},
+                    data: {filtered: JSON.stringify(data1), Search: JSON.stringify(value)},
                     dataType: 'json',
                     success: function(data){
-                        alert('success '+ data);
+                    alert('success '+ data);
                         // console.log(data);
                     },
                     error: function(err){
                         alert('error '+JSON.stringify(err));
-                        // console.log(err);
                     }
                 });
-                
-            } 
+            }
         </script>
 
-    <script>
-        var table = $('.watchlist').DataTable({
+        <script>
 
-        })
+            $('#gen').click(function() {
+                filtered_array = table.rows( { filter : 'applied'} ).data().toArray();
+                generatePDF(filtered_array);
+            })  
 
-        $('#gen').click(function() {
-            filtered_array = table.rows( { filter : 'applied'} ).data().toArray();
-            generatePDF(filtered_array);
-        })  
+            table.on('search.dt', function() {
+        
+            })
 
-        table.on('search.dt', function() {
-    
-        })
-    </script>    
+        </script>  
     </body>
 </html>
 
